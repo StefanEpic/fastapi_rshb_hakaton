@@ -14,7 +14,7 @@ router_game = APIRouter(
 
 @router_game.get('/', response_model=List[SchemaLocation])
 async def get_location(session: AsyncSession = Depends(get_async_session)):
-    query = select(Location)
+    query = Location.select()
     result = await session.execute(query)
     return result.all()
 
