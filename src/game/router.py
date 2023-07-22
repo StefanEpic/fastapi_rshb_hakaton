@@ -16,7 +16,7 @@ router_game = APIRouter(
 async def get_location(session: AsyncSession = Depends(get_async_session)):
     query = Location.select()
     result = await session.execute(query)
-    return result.all()
+    return "HELLO!"
 
 
 @router_game.get('/dialog', response_model=List[SchemaDialog])
