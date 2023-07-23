@@ -1,3 +1,4 @@
 fastapi[all]==0.100.0
 sqlalchemy==2.0.19
 asyncpg==0.28.0
+gunicorn==21.2.0

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select, insert
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic.types import List
 
@@ -16,7 +16,7 @@ router_game = APIRouter(
 async def get_location(session: AsyncSession = Depends(get_async_session)):
     query = Location.select()
     result = await session.execute(query)
-    return "HELLO!"
+    return result
 
 
 @router_game.get('/dialog', response_model=List[SchemaDialog])
