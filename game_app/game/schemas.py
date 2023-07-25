@@ -1,26 +1,24 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
-class SchemaLocation(BaseModel):
+class TunedModel(BaseModel):
+    class Config:
+        from_attributes = True
+
+
+class SchemaLocation(TunedModel):
     number: int
     title: str
-    about: str
-
-    class Config:
-        orm_mode = True
+    about: Optional[str] = None
 
 
-class SchemaDialog(BaseModel):
+class SchemaDialog(TunedModel):
     number: int
     text: str
 
-    class Config:
-        orm_mode = True
 
-
-class SchemaImage(BaseModel):
+class SchemaImage(TunedModel):
     title: str
     data: str
-
-    class Config:
-        orm_mode = True
