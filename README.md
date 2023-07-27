@@ -11,7 +11,7 @@
 <img src="https://github.com/StefanEpic/fastapi_rshb_hakaton/blob/main/game_app/media/001.jpg" width="600">
 
 ## 🚀 Usage
-The API returns information for a browser game implemented on the frontend
+The API returns information for a browser game, implemented on the frontend
 
 ### API method results. Example values | Schema:
 Returns a list of game locations with number and name:
