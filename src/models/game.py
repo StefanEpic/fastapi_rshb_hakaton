@@ -1,12 +1,11 @@
 from typing import Optional
 
-from sqlalchemy import Integer, String, ForeignKey
-from sqlalchemy import ForeignKey
+from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from database import Base
+from db.db import Base
 
-from .schemas import SchemaLocation, SchemaDialog, SchemaImage
+from schemas.game import LocationSchema, DialogSchema, ImageSchema
 
 
 class Location(Base):
@@ -17,8 +16,8 @@ class Location(Base):
     title: Mapped[str] = mapped_column(unique=True)
     about: Mapped[Optional[str]]
 
-    def to_read_model(self) -> SchemaLocation:
-        return SchemaLocation(
+    def to_read_model(self) -> LocationSchema:
+        return LocationSchema(
             number=self.number,
             title=self.title,
             about=self.about if self.about else None
@@ -34,8 +33,8 @@ class Dialog(Base):
     gender: Mapped[str] = mapped_column(String(1))
     text: Mapped[Optional[str]]
 
-    def to_read_model(self) -> SchemaDialog:
-        return SchemaDialog(
+    def to_read_model(self) -> DialogSchema:
+        return DialogSchema(
             number=self.number,
             text=self.text
         )
@@ -49,8 +48,8 @@ class Image(Base):
     title: Mapped[str] = mapped_column(unique=True)
     data: Mapped[str]
 
-    def to_read_model(self) -> SchemaImage:
-        return SchemaImage(
+    def to_read_model(self) -> ImageSchema:
+        return ImageSchema(
             title=self.title,
             data=self.data
         )

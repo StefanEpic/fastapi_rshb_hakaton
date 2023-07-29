@@ -1,4 +1,4 @@
-from .repository import AbstractRepository
+from utils.repository import AbstractRepository
 
 
 class LocationService:
