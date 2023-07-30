@@ -1,8 +1,9 @@
+import os
 from typing import Optional, List
 
 from fastapi_storages import FileSystemStorage
 from fastapi_storages.integrations.sqlalchemy import ImageType
-from sqlalchemy import String, ForeignKey, Column
+from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from db.db import Base
@@ -58,12 +59,12 @@ class Image(Base):
     location_id: Mapped[int] = mapped_column(ForeignKey("location.id", ondelete="CASCADE"))
     location: Mapped["Location"] = relationship(back_populates="images")
     title: Mapped[str] = mapped_column(unique=True)
-    source: Mapped[str] = mapped_column(unique=True)
+    source: Mapped[str] = mapped_column(ImageType(storage=FileSystemStorage(path=f'{os.path.abspath(os.curdir)}/media')))
 
     def to_read_model(self) -> ImageSchema:
         return ImageSchema(
             title=self.title,
-            source=self.source
+            url=self.source
         )
 
     def __str__(self):

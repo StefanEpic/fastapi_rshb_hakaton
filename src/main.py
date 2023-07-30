@@ -20,6 +20,7 @@ admin = Admin(app,
 for view in all_views:
     admin.add_view(view)
 
+
 @app.on_event("startup")
 async def init_db():
     async with engine.begin() as conn:
