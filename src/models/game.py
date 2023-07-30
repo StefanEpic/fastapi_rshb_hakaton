@@ -1,7 +1,9 @@
-from typing import Optional
+from typing import Optional, List
 
-from sqlalchemy import String, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from fastapi_storages import FileSystemStorage
+from fastapi_storages.integrations.sqlalchemy import ImageType
+from sqlalchemy import String, ForeignKey, Column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from db.db import Base
 
@@ -15,6 +17,8 @@ class Location(Base):
     number: Mapped[int] = mapped_column(unique=True)
     title: Mapped[str] = mapped_column(unique=True)
     about: Mapped[Optional[str]]
+    dialogs: Mapped[List["Dialog"]] = relationship(back_populates="location")
+    images: Mapped[List["Image"]] = relationship(back_populates="location")
 
     def to_read_model(self) -> LocationSchema:
         return LocationSchema(
@@ -23,12 +27,16 @@ class Location(Base):
             about=self.about if self.about else None
         )
 
+    def __str__(self):
+        return self.title
+
 
 class Dialog(Base):
     __tablename__ = "dialog"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    location = mapped_column(ForeignKey("location.number"))
+    location_id: Mapped[int] = mapped_column(ForeignKey("location.id", ondelete="CASCADE"))
+    location: Mapped["Location"] = relationship(back_populates="dialogs")
     number: Mapped[int]
     gender: Mapped[str] = mapped_column(String(1))
     text: Mapped[Optional[str]]
@@ -39,17 +47,24 @@ class Dialog(Base):
             text=self.text
         )
 
+    def __str__(self):
+        return f'{self.number} / {self.gender} / {self.text[:20]}...'
+
 
 class Image(Base):
     __tablename__ = "image"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    location = mapped_column(ForeignKey("location.number"))
+    location_id: Mapped[int] = mapped_column(ForeignKey("location.id", ondelete="CASCADE"))
+    location: Mapped["Location"] = relationship(back_populates="images")
     title: Mapped[str] = mapped_column(unique=True)
-    data: Mapped[str]
+    source: Mapped[str] = mapped_column(unique=True)
 
     def to_read_model(self) -> ImageSchema:
         return ImageSchema(
             title=self.title,
-            data=self.data
+            source=self.source
         )
+
+    def __str__(self):
+        return self.title
