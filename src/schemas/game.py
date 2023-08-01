@@ -21,4 +21,4 @@ class DialogSchema(TunedModel):
 
 class ImageSchema(TunedModel):
     title: str
-    source: str
+    url: str
