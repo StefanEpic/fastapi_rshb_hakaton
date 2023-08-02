@@ -13,14 +13,16 @@ services:
       - custom
 
 
-  game_app:
-    container_name: game_app
-    image: game_app
+  src:
+    container_name: src
+    image: src
     build:
       context: .
       dockerfile: Dockerfile
     env_file:
       - src/.env
+    volumes:
+      - media_volume:/src/media
     depends_on:
       - postgres
     expose:
@@ -35,10 +37,10 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./src/media:/src/media
+      - media_volume:/src/media
       - ./nginx:/etc/nginx/conf.d
     depends_on:
-      - game_app
+      - src
       - postgres
     networks:
       - custom
@@ -47,3 +49,6 @@ services:
 networks:
   custom:
     driver: bridge
+
+volumes:
+  media_volume:
