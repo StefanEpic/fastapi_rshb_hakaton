@@ -8,17 +8,17 @@ class TunedModel(BaseModel):
         from_attributes = True
 
 
-class SchemaLocation(TunedModel):
+class LocationSchema(TunedModel):
     number: int
     title: str
     about: Optional[str] = None
 
 
-class SchemaDialog(TunedModel):
+class DialogSchema(TunedModel):
     number: int
     text: str
 
 
-class SchemaImage(TunedModel):
+class ImageSchema(TunedModel):
     title: str
-    data: str
+    url: str
