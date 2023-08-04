@@ -47,3 +47,5 @@ Returns a list of location images:
   }
 ]
 ```
+
+😉 API can be tested: http://31.129.98.245:8080/
